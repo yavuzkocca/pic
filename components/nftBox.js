@@ -1,8 +1,8 @@
 export default function NFTBox({ name, image, description, attributes }) {
     return (
-        <div className="max-w-sm bg-white border border-zinc-200 shadow dark:bg-zinc-800 dark:border-zinc-700">
+        <div className="max-w-sm dark-bg-taiko mb-10 rounded-lg">
             <div>
-                <img src={image} alt={`NFT ${name}`} />
+                <img className="rounded-lg" src={image} alt={`NFT ${name}`} />
             </div>
             <div className="p-5">
                 <h5 className="mb-2 text-xl font-bold tracking-tight text-zinc-900 dark:text-white tracking-widest">{name}</h5>

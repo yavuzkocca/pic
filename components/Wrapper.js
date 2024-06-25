@@ -173,7 +173,7 @@ export function sketch(p5, userData1, setData, iref, cata, setCata) {
             "Depth": maxDeptheName,
         };
         console.log(JSON.stringify(traits));
-        let name = `TreeVerse #${userData1.userData?.tokenId}`;
+        let name = `Wagasa #${userData1.userData?.tokenId}`;
 
         let description =
             `A limited-edition generative art collection featuring unique tree designs created with p5.js. Each piece blends technology and nature.`

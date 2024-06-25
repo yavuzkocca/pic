@@ -125,15 +125,14 @@ export default function LotteryEntrance() {
     return (
         <>
             <div className="p-5 flex h-[700px] w-[700px] items-center justify-center ">
-                <div className="w-full max-w-2xl items-center justify-center bg-white border border-zinc-200 shadow dark:bg-zinc-950 dark:border-zinc-700">
+                <div className="w-full max-w-2xl items-center justify-center bg-white shadow dark:bg-zinc-950 dark-bg-taiko rounded-lg">
                     <div className="p-5 m-10 ">
                         <div>
-                            <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-3 tracking-widest">TreeVerse</h5>
-                            <p className="leading-6 text-m text-gray-900 dark:text-white mb-4">
-                                TreeVerse is a limited-edition generative art collection on the Mint blockchain.
-                                Using p5.js, it features a variety of intricate tree designs with unique traits.
-                                <br /> Each piece symbolizes a commitment to preserving the natural world, blending technology and nature in a seamless digital experience.
-                                <br /> TreeVerse offers a unique opportunity to own a digital representation of nature's beauty in the blockchain era.
+                            <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-5 tracking-widest">Wagasa</h5>
+                            <p className="leading-6 text-m text-gray-900 dark:text-white mb-4">WAGASA is a limited series collection of 10,000 generative artworks, encapsulating themes of nihilism, inherent cruelty, and greed—echoing our trivial existence in an uncaring universe.
+                                <br></br>   <br></br> Each element in these artworks—from colors to strokes—reflects the fleeting nature of life amidst an eternal void, the scars of violence, and the complacency they foster.
+                                <br></br> <br></br> Though seemingly colorful and tranquil, underlying currents challenge the observer to confront deeper truths.
+                                WAGASA, not for the faint of heart, mirrors our darkest despair and spurs introspection, urging us to confront our demons and strive for a better future.
                             </p>
                         </div>
                         <div className="flex items-center justify-between">
@@ -144,7 +143,7 @@ export default function LotteryEntrance() {
                         </div>
                         <div className="flex items-center justify-between">
                             <button
-                                className={`bg-green-500 hover:bg-green-700 text-white font-bold px-20 py-3.5 mt-5 ${minting ? "opacity-50 cursor-not-allowed" : ""}`}
+                                className={`rounded-lg theme-taiko-logocolor hover:bg-pink-800 text-white font-bold px-20 py-3.5 mt-5 ${minting ? "opacity-50 cursor-not-allowed" : ""}`}
                                 onClick={async () => {
                                     setMinting(true);
                                     await tokenID();
