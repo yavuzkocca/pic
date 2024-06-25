@@ -3,136 +3,181 @@ import { NextReactP5Wrapper } from "@p5-wrapper/next";
 import hl from "../constants/hl-gen";
 
 export default function Wrapper2() {
-    const [reloadKey, setReloadKey] = useState(0); // State tanımı
+    const [reloadKey, setReloadKey] = useState(0);
     const [showReload, setShowReload] = useState(false);
 
     const sketch = (p5) => {
         const high = hl();
-        console.log(high.randomInt(1, 101))
-        console.log(high.random(0.7, 1.3))
 
-        let angle;
-        let lengthFactor = 0.65;
-        let maxDepth;
-        let rarityMap0;
-        let maxDeptheName;
-        let minBranchLength;
-        let rarityMap1;
-        let paletteColor;
-        let fromColor;
-        let toColor;
-        let paletteName;
+
+        let spheres = [];
+        let palette;
+
+
+        function pickNumber(numbers, weights) {
+            let totalWeight = weights.reduce((a, b) => a + b, 0);
+            let randomNumber = high.randomInt(0, totalWeight);
+            let weightSum = 0;
+
+            for (let i = 0; i < numbers.length; i++) {
+                weightSum += weights[i];
+                if (randomNumber <= weightSum) {
+                    return { number: numbers[i], index: i };
+                }
+            }
+        }
+
+        let rotationSpeed = high.random(0.01, 0.03);
+        let n = Math.floor(high.random(1, 20)) * 10;
+        let maxRadius = high.random(1.5, 2.5);
+        let off = high.randomInt(0, 1000);
+
+        let segments;
+        let segmentNumbers = [12, 24, 20, 30, 36];
+        let weightss = [3, 5, 4, 2, 1];
+        let segmentTraits = ["12", "24", "20", "30", "36"];
+        let segmentResult = pickNumber(segmentNumbers, weightss);
+        let segmentPickedNumber = segmentResult.number;
+        let segmentPickedTrait = segmentTraits[segmentResult.index];
+
+        let speedNumbers = [0.01, 0.0125, 0.015, 0.0175, 0.02];
+        let weightsSpeed = [3, 5, 4, 2, 1];
+        let speedTraits = ["verySlow", "slowly", "notFast", "fast", "fastAndFurious"];
+        let speedResult = pickNumber(speedNumbers, weightsSpeed);
+        let speedPickedNumber = speedResult.number;
+        let speedPickedTrait = speedTraits[speedResult.index];
+        let speed = speedPickedNumber;
+
+        let paletteTrait = [
+            "Radioactive Peacock",
+            "Puddle of Puke",
+            "Sweat Stain",
+            "Faded Memories",
+            "Deadly Migraine",
+            "Moldy Shower Curtain",
+            "Satan's Sunrise",
+            "Post-Apocalyptic Rainbow",
+        ];
+
         const artworkWidth = 700;
         const artworkHeight = 700;
 
+        let colorPalletePicker;
+        const weights = [0.2, 0.2, 0.1, 0.2, 0.1, 0.1, 0.05, 0.05];
+        const randomNum = high.random(0, 1);
+        let weightSum = 0;
+        for (let i = 0; i < weights.length; i++) {
+            weightSum += weights[i];
+            if (randomNum <= weightSum) {
+                colorPalletePicker = i;
+                break;
+            }
+        }
+
         p5.setup = () => {
-            p5.createCanvas(artworkWidth, artworkHeight);
-            angle = p5.PI / 4;
-            p5.noLoop();
-            p5.frameRate(60);
-            p5.pixelDensity(1);
-            p5.resizeCanvas(artworkWidth, artworkHeight);
-
-            // MAX DEPTH 
-            rarityMap0 = high.randomInt(1, 101);
-            console.log("rrro" + rarityMap0)
-            if (rarityMap0 > 0 && rarityMap0 < 35) {
-                maxDepth = 10;
-                maxDeptheName = "X";
-            } else if (rarityMap0 >= 35 && rarityMap0 < 50) {
-                maxDepth = 30;
-                maxDeptheName = "XXX";
-            } else if (rarityMap0 >= 50 && rarityMap0 < 75) {
-                maxDepth = 50;
-                maxDeptheName = "L";
-            } else if (rarityMap0 >= 75 && rarityMap0 < 102) {
-                maxDepth = 100;
-                maxDeptheName = "C";
-            }
-
-            // MIN BRANCH LENGTH 
-            rarityMap1 = high.randomInt(1, 101);
-            if (rarityMap1 > 0 && rarityMap1 < 20) {
-                minBranchLength = 2;
-            } else if (rarityMap1 >= 20 && rarityMap1 < 35) {
-                minBranchLength = 3;
-            } else if (rarityMap1 >= 35 && rarityMap1 < 50) {
-                minBranchLength = 4;
-            } else if (rarityMap1 >= 50 && rarityMap1 < 102) {
-                minBranchLength = 5;
-            }
-
-            // Color Palette
-            paletteColor = high.randomInt(0, 5);
-
-            switch (paletteColor) {
+            switch (colorPalletePicker) {
                 case 0:
-                    fromColor = p5.color(0, 0, 0);
-                    toColor = p5.color(255, 255, 255);
-                    paletteName = "depression.";
+                    palette = [
+                        [1, 22, 39],
+                        [253, 255, 252],
+                        [46, 196, 182],
+                        [231, 29, 54],
+                        [255, 159, 28],
+                    ];
                     break;
                 case 1:
-                    fromColor = p5.color(0, 50, 150);
-                    toColor = p5.color(0, 200, 50);
-                    paletteName = "acceptance.";
+                    palette = [
+                        [0, 18, 25],
+                        [0, 95, 115],
+                        [10, 147, 150],
+                        [148, 210, 189],
+                        [233, 216, 166],
+                        [238, 155, 0],
+                        [202, 103, 2],
+                        [187, 62, 3],
+                        [174, 32, 18],
+                        [155, 34, 38],
+                    ];
                     break;
                 case 2:
-                    fromColor = p5.color(46, 196, 182);
-                    toColor = p5.color(255, 159, 0);
-                    paletteName = "denial.";
+                    palette = [
+                        [96, 108, 56],
+                        [40, 54, 24],
+                        [254, 250, 224],
+                        [221, 161, 94],
+                        [188, 108, 37],
+                    ];
                     break;
                 case 3:
-                    fromColor = p5.color(252, 191, 73);
-                    toColor = p5.color(208, 0, 0);
-                    paletteName = "revenge.";
+                    palette = [
+                        [230, 57, 70],
+                        [241, 250, 238],
+                        [168, 218, 220],
+                        [69, 123, 157],
+                        [29, 53, 87],
+                    ];
                     break;
                 case 4:
-                    fromColor = p5.color(241, 91, 181);
-                    toColor = p5.color(2, 195, 154);
-                    paletteName = "bargaining.";
+                    palette = [
+                        [255, 190, 11],
+                        [251, 86, 7],
+                        [240, 20, 140],
+                        [131, 56, 236],
+                        [58, 134, 255],
+                    ];
                     break;
                 case 5:
-                    fromColor = p5.color(217, 4, 41);
-                    toColor = p5.color(255, 143, 163);
-                    paletteName = "anger.";
+                    palette = [
+                        [218, 215, 205],
+                        [163, 177, 138],
+                        [88, 129, 87],
+                        [58, 90, 64],
+                        [52, 78, 65],
+                    ];
                     break;
-                default:
-                    fromColor = p5.color(0, 50, 150);
-                    toColor = p5.color(0, 200, 50);
-                    paletteName = "acceptance.";
+                case 6:
+                    palette = [
+                        [3, 7, 30],
+                        [55, 6, 23],
+                        [106, 4, 15],
+                        [157, 2, 8],
+                        [208, 0, 0],
+                        [220, 47, 2],
+                        [232, 93, 4],
+                        [244, 140, 6],
+                        [250, 163, 7],
+                        [255, 186, 8],
+                    ];
                     break;
+                case 7:
+                    palette = [
+                        [240, 20, 140],
+                        [255, 202, 58],
+                        [138, 201, 38],
+                        [25, 130, 196],
+                        [106, 76, 147],
+                    ];
+                    break;
+            }
+
+            p5.createCanvas(artworkWidth, artworkHeight);
+            p5.background(0);
+            p5.noStroke();
+            for (let i = 0; i < n; i++) {
+                let x = high.random(0, p5.windowHeight);
+                let y = high.random(0, p5.windowHeight);
+                let r = (high.random(20, 50) * p5.windowHeight) / 600;
+
+                let c = palette[Math.floor(high.random(0, palette.length))];
+                spheres.push(new Sphere(x, y, r, c));
             }
         };
 
         p5.draw = () => {
-            p5.background(0);
-            let gradientFactor = 0.1;
-
-            function drawBranch(x, y, len, angle, depth) {
-                if (depth > maxDepth) return;
-                let endX = x + len * p5.cos(angle);
-                let endY = y + len * p5.sin(angle);
-                let col = p5.lerpColor(fromColor, toColor, p5.noise(x * gradientFactor, y * gradientFactor));
-                p5.stroke(col);
-                p5.strokeWeight(p5.map(len, minBranchLength, 100, 0.5, 4));
-                p5.line(x, y, endX, endY);
-
-                if (len > minBranchLength) {
-                    for (let i = 0; i < 2; i++) {
-                        let newLen = len * lengthFactor * high.random(0.7, 1.3);
-                        let newAngle = angle + (high.random() > 0.5 ? 1 : -1) * high.random(p5.PI / 10, p5.PI / 4);
-                        drawBranch(endX, endY, newLen, newAngle, depth + 1);
-                    }
-                }
-            }
-
-            for (let i = 0; i < 5; i++) {
-                let xOffset = p5.width / 10;
-                let yOffset = p5.height / 100;
-                let startX = p5.width / 2 + high.random(-xOffset, xOffset);
-                let startY = p5.height - yOffset;
-                let trunkLength = high.randomInt(50, 150);
-                drawBranch(startX, startY, trunkLength, -p5.PI / 2, 0);
+            p5.background(0, 50);
+            for (let i = 0; i < spheres.length; i++) {
+                spheres[i].update();
+                spheres[i].display();
             }
 
             p5.mouseMoved = () => {
@@ -143,12 +188,63 @@ export default function Wrapper2() {
                 }
             };
         };
+
+        class Sphere {
+            constructor(x, y, r, c) {
+                this.pos = p5.createVector(x, y);
+                this.radius = r;
+                this.color = c;
+                this.off = off;
+                this.speed = speed;
+                this.maxRadius = r * maxRadius;
+                this.minRadius = r;
+                this.direction = high.random(-1, 1);
+                this.rotation = 0;
+                this.rotationSpeed = rotationSpeed;
+            }
+            update() {
+                this.off += this.speed;
+                this.radius = p5.map(
+                    p5.noise(this.off),
+                    0,
+                    1,
+                    this.minRadius,
+                    this.maxRadius
+                );
+                this.rotation += this.direction * this.rotationSpeed;
+            }
+            display() {
+                p5.push();
+                p5.translate(this.pos.x, this.pos.y);
+                p5.rotate(this.rotation);
+                segments = segmentPickedNumber;
+                let angle = p5.TWO_PI / segments;
+                p5.beginShape(p5.TRIANGLE_FAN);
+                p5.fill(this.color[0], this.color[1], this.color[2], 100);
+                p5.vertex(0, 0);
+                for (let i = 0; i <= segments; i++) {
+                    let x = p5.cos(i * angle) * this.radius;
+                    let y = p5.sin(i * angle) * this.radius;
+                    let c = p5.map(i, 0, segments, 0, 1);
+                    p5.fill(
+                        p5.lerpColor(
+                            p5.color(this.color[0], this.color[1], this.color[2], 0),
+                            p5.color(this.color[0], this.color[1], this.color[2], 255),
+                            c
+                        )
+                    );
+                    p5.vertex(x, y);
+                }
+                p5.endShape();
+                p5.pop();
+            }
+        }
     };
 
     return (
         <div className="px-5 flex justify-items-start">
             <div className="items-center justify-center bg-white shadow dark:bg-zinc-800">
-                <NextReactP5Wrapper key={reloadKey} sketch={sketch}  />
+                <NextReactP5Wrapper key={reloadKey} sketch={sketch} />
             </div>
         </div>
     );
