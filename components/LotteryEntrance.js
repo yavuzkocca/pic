@@ -27,7 +27,7 @@ export default function LotteryEntrance() {
     const [userData, setUserData] = useState(null);
     const [id, setId] = useState(null);
     const [minting, setMinting] = useState(false);
-    const [tsupply, setTsupply] = useState(null)
+    const [tsupply, setTsupply] = useState(0)
     const [tokenHash, setTokenHash] = useState(null)
 
 
