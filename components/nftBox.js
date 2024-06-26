@@ -1,7 +1,7 @@
 export default function NFTBox({ token }) {
     return (
         <div className="max-w-sm dark-bg-taiko mb-10 rounded-lg">
-            <a href={`http://localhost:3000/${token.tokenId}`} target="_blank" rel="noopener noreferrer">
+            <a href={`https://pic-rosy.vercel.app/${token.tokenId}`} target="_blank" rel="noopener noreferrer">
                 <img className="rounded-lg" src={token.image} alt={`NFT ${token.name}`} />
             </a>
             <div className="p-5">
