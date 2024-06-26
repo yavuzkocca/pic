@@ -1,15 +1,13 @@
-import { useContext } from 'react';
 import { ethers } from 'ethers';
-import { DataContext } from '../components/DataContext';
 import { NextReactP5Wrapper } from '@p5-wrapper/next';
-import hl from '../constants/hl-gen2';
+import hl from '../constants/hl-gen3';
 import FishABI from "../constants/FishABI.json";
 
 
-export function sketch(p5, setData, iref, cata, setCata, tokenHash) {
+export function sketch(p5, tokenHash) {
     console.log(tokenHash + "ç")
 
-    const high = hl(cata, tokenHash)
+    const high = hl(tokenHash)
 
 
     let spheres = [];
@@ -275,12 +273,12 @@ export async function getServerSideProps(context) {
 }
 
 export default function TokenPage({ tokenHash }) {
-    const { data, setData, iref, cata, setCata } = useContext(DataContext);
+
 
     return (
         <div className="w-screen h-screen dark-bg-taiko flex" >
-            <div className="container mx-auto px-4 flex items-center justify-center " >
-                <NextReactP5Wrapper sketch={(p5) => sketch(p5, setData, iref, cata, setCata, tokenHash)} />
+            <div className="h container mx-auto px-4 flex items-center justify-center " >
+                <NextReactP5Wrapper sketch={(p5) => sketch(p5, tokenHash)} />
             </div>
         </div>
     );

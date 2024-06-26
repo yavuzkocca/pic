@@ -3,7 +3,7 @@ import { DataContext } from "../components/DataContext";
 import { NextReactP5Wrapper } from "@p5-wrapper/next";
 import hl from '../constants/hl-gen2';
 
-export function sketch(p5, userData1, setData, iref, cata, setCata) {
+export function sketch(p5, userData1, setData, cata, setCata) {
 
 
     const high = hl(userData1)
@@ -301,7 +301,9 @@ export function sketch(p5, userData1, setData, iref, cata, setCata) {
 
     otherdata = {
         "name": name,
+        "tokenId": `${userData1.userData?.tokenId}`,
         "description": description,
+        "tokenHash": `${userData1.userData?.tokenHash}`,
         "attributes": traits
     }
     console.log("CATA" + cata)
@@ -319,7 +321,7 @@ export function sketch(p5, userData1, setData, iref, cata, setCata) {
 
 export default function Wrapper(userData, dataRef) {
     const userData1 = userData
-    const { data, setData, iref, cata, setCata } = useContext(DataContext);
+    const { data, setData, cata, setCata } = useContext(DataContext);
 
 
     console.log(`Wusr ${JSON.stringify(userData1)}`)
@@ -336,8 +338,8 @@ export default function Wrapper(userData, dataRef) {
 
     return (
         //style={{ display: 'none' }}
-        <div className="container mx-auto px-4 flex items-center justify-center"  >
-            <NextReactP5Wrapper sketch={(p5) => sketch(p5, userData1, setData, iref, cata, setCata)} />
+        <div id='wagasa' className="container mx-auto px-4 flex items-center justify-center"  >
+            <NextReactP5Wrapper sketch={(p5) => sketch(p5, userData1, setData, cata, setCata)} />
         </div>
     );
 }

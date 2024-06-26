@@ -38,7 +38,9 @@ export const uploadMetaToIPFS = async (imageDataUrl, data) => {
 
         const metadata = {
             "name": data.name,
+            "tokenId": data.tokenId,
             "description": data.description,
+            "tokenHash": data.tokenHash,
             "image": lastUri,
             "attributes": data.attributes,
         }

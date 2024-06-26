@@ -77,11 +77,11 @@ export default function NFTBoxContainer() {
                         <h5 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-white mb-8 pb-3 pt-3 mt-10 mb-10 tracking-widest border-b border-b-zinc-700 flex flex-row">Owned NFTs</h5>
                     </div>
                     <div className="flex flex-wrap justify-evenly w-full mb-5 ">
-                      
-                            {nftsData.map((token, index) => (
-                                <NFTBox key={index} name={token.name} image={token.image} description={token.description} attributes={token.attributes} />
-                            ))}
-                     
+
+                        {nftsData.map((token, index) => (
+                            <NFTBox key={index} token={token} />
+                        ))}
+
                     </div>
                 </div>
             ) : balance == 0 ? (

@@ -27,23 +27,21 @@ export default function LotteryEntrance() {
     const [userData, setUserData] = useState(null);
     const [id, setId] = useState(null);
     const [minting, setMinting] = useState(false);
-    const [tsupply, setTsupply] = useState(0)
+    const [tsupply, setTsupply] = useState(null)
     const [tokenHash, setTokenHash] = useState(null)
 
 
     const tokenID = async () => {
         const tid = await contract.totalSupply();
         setId(tid.toNumber());
-        setTokenHash(`${address}${unixTimestamp}${tid}`)
+        setTokenHash(`${address}${tid}${unixTimestamp}`)
         const userData = {
             contractAddress: process.env.FISH_CONTRACT,
             chainId: chainId,
-            editionSize: 100,
-            mintSize: '1',
-            mintIteration: '1',
             tokenId: tid.toNumber(),
             walletAddress: address,
             timestamp: unixTimestamp,
+            tokenHash: `${address}${tid}${unixTimestamp}`
         };
         setUserData(userData);
     };

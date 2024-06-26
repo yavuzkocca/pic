@@ -1,5 +1,6 @@
-const hl = (userData) => {
+const hl = (tokenHash) => {
 
+  console.log(tokenHash)
   function xmur3(str) {
     for (var i = 0, h = 1779033703 ^ str.length; i < str.length; i++)
       (h = Math.imul(h ^ str.charCodeAt(i), 3432918353)),
@@ -27,12 +28,8 @@ const hl = (userData) => {
     };
   }
 
-  const tokenId = userData.userData.tokenId
-  console.log(tokenId)
-  const walletAddress = userData.userData.walletAddress
-  console.log(walletAddress)
-  const timestamp = userData.userData.timestamp
-  const seed = xmur3(walletAddress + tokenId + timestamp);
+
+  const seed = xmur3(tokenHash);
   //const seed = xmur3(0x6C24136a9874A1a8CC4f333a1c4855038F350fD5)
 
   const hl = {
