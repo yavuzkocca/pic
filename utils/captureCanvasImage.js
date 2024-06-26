@@ -4,7 +4,7 @@ export const captureCanvasImage = (data) => {
     const canvas = document.querySelector('#defaultCanvas0');
     if (canvas) {
         const imageDataUrl = canvas.toDataURL();
-        console.log(data)
+        console.log("ccI" + canvas)
         const ipfsUri = uploadMetaToIPFS(imageDataUrl, data);
 
         return ipfsUri

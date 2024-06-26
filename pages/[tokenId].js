@@ -1,12 +1,15 @@
-import { useContext, useRef, useEffect } from 'react';
-import { DataContext } from "../components/DataContext";
-import { NextReactP5Wrapper } from "@p5-wrapper/next";
+import { useContext } from 'react';
+import { ethers } from 'ethers';
+import { DataContext } from '../components/DataContext';
+import { NextReactP5Wrapper } from '@p5-wrapper/next';
 import hl from '../constants/hl-gen2';
+import FishABI from "../constants/FishABI.json";
 
-export function sketch(p5, userData1, setData, iref, cata, setCata) {
 
+export function sketch(p5, setData, iref, cata, setCata, tokenHash) {
+    console.log(tokenHash + "ç")
 
-    const high = hl(userData1)
+    const high = hl(cata, tokenHash)
 
 
     let spheres = [];
@@ -169,6 +172,7 @@ export function sketch(p5, userData1, setData, iref, cata, setCata) {
             let r = (high.random(20, 50) * p5.windowHeight) / 600;
 
             let c = palette[Math.floor(high.random(0, palette.length))];
+            console.log(c)
             spheres.push(new Sphere(x, y, r, c));
         }
     };
@@ -232,112 +236,51 @@ export function sketch(p5, userData1, setData, iref, cata, setCata) {
         }
     }
 
-    // TRAITS
-
-    function Trait0(maxRadius) {
-        if (maxRadius < 2) {
-            return "short";
-        } else {
-            return "long";
-        }
-    }
-
-    function Trait1(paletteTrait) {
-        return paletteTrait;
-    }
-
-    function Trait2(off) {
-        if (off < 333) {
-            return "onSet";
-        } else if (off < 666 && 334 < off) {
-            return "maybeSet";
-        } else {
-            return "offSet";
-        }
-    }
-
-    function Trait3(n) {
-        if (n < 30) {
-            return "Pleasantly Vacant";
-        } else if (n < 75 && 29 < n) {
-            return "Sparsely Sprinkled";
-        } else if (n < 100 && 74 < n) {
-            return "Moderately Amusing";
-        } else if (n < 151 && 99 < n) {
-            return "Densely Hilarious";
-        } else if (n < 165 && 150 < n) {
-            return "Uncomfortably Cozy";
-        } else if (n < 175 && 164 < n) {
-            return "Sassily Stifling";
-        } else {
-            return "Suffocatingly Stuffed";
-        }
-    }
-
-    function Trait4(rotationSpeed) {
-        if (rotationSpeed < 0.02) {
-            return "forward";
-        } else {
-            return "onward";
-        }
-    }
-
-    let traits = {
-        "position": Trait0(maxRadius),
-        "wenSet": Trait2(off),
-        "stuffMeter": Trait3(n),
-        "rotationSpeed": Trait4(rotationSpeed),
-        "palette": Trait1(paletteTrait[colorPalletePicker]),
-        "segment": segmentPickedTrait,
-        "speed": speedPickedTrait,
-    };
-    console.log(JSON.stringify(traits));
-    let name = `Wagasa #${userData1.userData?.tokenId}`;
-
-    let description =
-        `A limited-edition generative art collection featuring unique tree designs created with p5.js. Each piece blends technology and nature.`
-        ;
-    console.log(description)
-
-    otherdata = {
-        "name": name,
-        "description": description,
-        "attributes": traits
-    }
-    console.log("CATA" + cata)
-    if (cata == false) {
-        setData(otherdata);
-        console.log("OTH" + JSON.stringify(otherdata))
-        setCata(true);
-    }
-    console.log(otherdata)
 
 };
 
+export async function getServerSideProps(context) {
+    const { tokenId } = context.params;
 
+    // Ethers.js ile provider ve kontrat tanımlayın
+    const provider = new ethers.providers.JsonRpcProvider(`https://base-sepolia.g.alchemy.com/v2/${process.env.BASE_SEPOLIA_PROVIDER}`);
+    const FishContract = process.env.FISH_CONTRACT;
+    const contract = new ethers.Contract(FishContract, FishABI, provider);
+    // Akıllı kontrattan token verilerini çekin
+    console.log("SSRID" + tokenId)
+    let tokenHash;
+    try {
+        tokenHash = await contract.getTokenHash(tokenId)
+    } catch (error) {
+        console.error('Error fetching token data:', error);
+        return {
+            notFound: true,
+        };
+    }
 
+    // userData'yı JSON formatına çevirin
+    // tokenHash = JSON.parse(JSON.stringify(tokenHash));
 
-export default function Wrapper(userData, dataRef) {
-    const userData1 = userData
+    // Eğer veri bulunamazsa 404 sayfası döndürün
+    if (!tokenHash) {
+        return {
+            notFound: true,
+        };
+    }
+    return {
+        props: {
+            tokenHash,
+        },
+    };
+}
+
+export default function TokenPage({ tokenHash }) {
     const { data, setData, iref, cata, setCata } = useContext(DataContext);
 
 
-    console.log(`Wusr ${JSON.stringify(userData1)}`)
-    console.log(`Wusr ${JSON.stringify(data)}`)
-
-    if (!userData || !userData.userData) {
-
-        return (
-            <div className="container mx-auto px-4 flex items-center justify-center">
-
-            </div>
-        );
-    }
-
     return (
-        //style={{ display: 'none' }}
-        <div className="container mx-auto px-4 flex items-center justify-center"  >
-            <NextReactP5Wrapper sketch={(p5) => sketch(p5, userData1, setData, iref, cata, setCata)} />
+        <div className="container mx-auto px-4 flex items-center justify-center">
+            <NextReactP5Wrapper sketch={(p5) => sketch(p5, setData, iref, cata, setCata, tokenHash)} />
         </div>
     );
 }

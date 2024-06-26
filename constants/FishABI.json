@@ -170,6 +170,11 @@
                 "internalType": "string",
                 "name": "uri",
                 "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "tokenHash",
+                "type": "string"
             }
         ],
         "name": "mintFish",
@@ -529,6 +534,25 @@
                 "internalType": "address",
                 "name": "",
                 "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getTokenHash",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
             }
         ],
         "stateMutability": "view",

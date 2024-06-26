@@ -28,11 +28,13 @@ export default function LotteryEntrance() {
     const [id, setId] = useState(null);
     const [minting, setMinting] = useState(false);
     const [tsupply, setTsupply] = useState(0)
+    const [tokenHash, setTokenHash] = useState(null)
 
 
     const tokenID = async () => {
         const tid = await contract.totalSupply();
         setId(tid.toNumber());
+        setTokenHash(`${address}${unixTimestamp}${tid}`)
         const userData = {
             contractAddress: process.env.FISH_CONTRACT,
             chainId: chainId,
@@ -49,13 +51,14 @@ export default function LotteryEntrance() {
     console.log("dat" + JSON.stringify(data));
     console.log(JSON.stringify(userData));
     console.log(id)
+    console.log(tokenHash)
 
-    async function mintFish(tokenId, URI) {
+    async function mintFish(tokenId, URI, tokenHash) {
         const contract = new ethers.Contract(FishContract, FishABI, signer);
         console.log(URI);
 
         try {
-            const transaction = await contract.mintFish(tokenId, URI, {
+            const transaction = await contract.mintFish(tokenId, URI, tokenHash, {
                 value: ethers.utils.parseEther("0.000001"),
             });
             await transaction.wait();
@@ -98,14 +101,17 @@ export default function LotteryEntrance() {
     };
 
     useEffect(() => {
-        if (userData && data && id) {
+        if (userData && data && id && tokenHash) {
 
             const mintFishProcess = async () => {
                 const URL = await captureCanvasImage(data);
                 console.log(URL);
                 const cleanUri = URL.replace('ipfs://', '');
                 const lastUri = `https://ipfs.io/ipfs/${cleanUri}`;
-                await mintFish(id, lastUri);
+                console.log("TH" + tokenHash)
+                console.log("TH" + id)
+                console.log("TH" + lastUri)
+                await mintFish(id, lastUri, tokenHash);
             };
             mintFishProcess();
         }
