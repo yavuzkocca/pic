@@ -1,9 +1,9 @@
 export default function NFTBox({ name, image, description, attributes }) {
     return (
         <div className="max-w-sm dark-bg-taiko mb-10 rounded-lg">
-            <div>
+            <a href={`${process.env.URL_PATH}/${id}`}>
                 <img className="rounded-lg" src={image} alt={`NFT ${name}`} />
-            </div>
+            </a>
             <div className="p-5">
                 <h5 className="mb-2 text-xl font-bold tracking-tight text-zinc-900 dark:text-white tracking-widest">{name}</h5>
                 <p className="text-sm mb-4 font-normal text-zinc-700 dark:text-zinc-400">{description}</p>

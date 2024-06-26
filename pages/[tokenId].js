@@ -277,10 +277,11 @@ export async function getServerSideProps(context) {
 export default function TokenPage({ tokenHash }) {
     const { data, setData, iref, cata, setCata } = useContext(DataContext);
 
-
     return (
-        <div className="container mx-auto px-4 flex items-center justify-center">
-            <NextReactP5Wrapper sketch={(p5) => sketch(p5, setData, iref, cata, setCata, tokenHash)} />
+        <div className="w-screen h-screen dark-bg-taiko flex" >
+            <div className="container mx-auto px-4 flex items-center justify-center " >
+                <NextReactP5Wrapper sketch={(p5) => sketch(p5, setData, iref, cata, setCata, tokenHash)} />
+            </div>
         </div>
     );
 }
