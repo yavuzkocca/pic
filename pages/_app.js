@@ -24,7 +24,7 @@ const config = getDefaultConfig({
   appName: 'Raffle',
   projectId: '6748d532ac67647cd2eec1b96272ba77',
   chains: [baseSepolia],
-  ssr: false, // If your dApp uses server side rendering (SSR)
+  ssr: true, // If your dApp uses server side rendering (SSR)
 });
 
 
