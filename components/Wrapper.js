@@ -338,7 +338,7 @@ export default function Wrapper(userData, dataRef) {
 
     return (
         //style={{ display: 'none' }}
-        <div id='wagasa' className="container mx-auto px-4 flex items-center justify-center"  >
+        <div id='wagasa' className="container mx-auto px-4 flex items-center justify-center" style={{ display: 'none' }} >
             <NextReactP5Wrapper sketch={(p5) => sketch(p5, userData1, setData, cata, setCata)} />
         </div>
     );
