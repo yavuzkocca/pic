@@ -6,6 +6,7 @@ import '../styles/taiko.css';
 import {
   getDefaultConfig,
   RainbowKitProvider,
+  darkTheme
 } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
 import {
