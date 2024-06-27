@@ -9,10 +9,8 @@ export default function Wrapper2() {
     const sketch = (p5) => {
         const high = hl();
 
-
         let spheres = [];
         let palette;
-
 
         function pickNumber(numbers, weights) {
             let totalWeight = weights.reduce((a, b) => a + b, 0);

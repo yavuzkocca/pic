@@ -27,14 +27,10 @@ export const uploadMetaToIPFS = async (imageDataUrl, data) => {
     const storage = new ThirdwebStorage({
         clientId: process.env.THIRDWEB_CLIENT_ID
     });
-    console.log(JSON.stringify(data))
     try {
         const imageUri = await uploadToIPFS(imageDataUrl);
         const cleanUri = imageUri.replace('ipfs://', '')
         const lastUri = `https://ipfs.io/ipfs/${cleanUri}`
-
-        console.log(JSON.stringify(`IOFSDATA` + JSON.stringify(data)))
-
 
         const metadata = {
             "name": data.name,

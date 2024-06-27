@@ -38,8 +38,8 @@ export default function Home() {
               <div className="p-5 m-10">
                 <div>
                   <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-5 tracking-widest">Wagasa</h5>
-                  <p className="leading-6 text-m text-gray-900 dark:text-white mb-4">WAGASA is a limited series collection of 10,000 generative artworks, encapsulating themes of nihilism, inherent cruelty, and greed—echoing our trivial existence in an uncaring universe.
-                  <br></br>   <br></br> Each element in these artworks—from colors to strokes—reflects the fleeting nature of life amidst an eternal void, the scars of violence, and the complacency they foster.
+                  <p className="leading-6 text-m text-gray-900 dark:text-white mb-4">WAGASA is a limited series collection of 39,393 generative artworks, encapsulating themes of nihilism, inherent cruelty, and greed—echoing our trivial existence in an uncaring universe.
+                    <br></br>   <br></br> Each element in these artworks—from colors to strokes—reflects the fleeting nature of life amidst an eternal void, the scars of violence, and the complacency they foster.
                     <br></br> <br></br> Though seemingly colorful and tranquil, underlying currents challenge the observer to confront deeper truths.
                     WAGASA, not for the faint of heart, mirrors our darkest despair and spurs introspection, urging us to confront our demons and strive for a better future.
                   </p>

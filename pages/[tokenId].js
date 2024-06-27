@@ -1,11 +1,10 @@
 import { ethers } from 'ethers';
 import { NextReactP5Wrapper } from '@p5-wrapper/next';
 import hl from '../constants/hl-gen3';
-import FishABI from "../constants/FishABI.json";
+import WagasaABI from "../constants/WagasaABI.json";
 
 
 export function sketch(p5, tokenHash) {
-    console.log(tokenHash + "ç")
 
     const high = hl(tokenHash)
 
@@ -170,7 +169,6 @@ export function sketch(p5, tokenHash) {
             let r = (high.random(20, 50) * p5.windowHeight) / 600;
 
             let c = palette[Math.floor(high.random(0, palette.length))];
-            console.log(c)
             spheres.push(new Sphere(x, y, r, c));
         }
     };
@@ -240,12 +238,9 @@ export function sketch(p5, tokenHash) {
 export async function getServerSideProps(context) {
     const { tokenId } = context.params;
 
-    // Ethers.js ile provider ve kontrat tanımlayın
     const provider = new ethers.providers.JsonRpcProvider(`https://base-sepolia.g.alchemy.com/v2/${process.env.BASE_SEPOLIA_PROVIDER}`);
-    const FishContract = process.env.FISH_CONTRACT;
-    const contract = new ethers.Contract(FishContract, FishABI, provider);
-    // Akıllı kontrattan token verilerini çekin
-    console.log("SSRID" + tokenId)
+    const WagasaContract = process.env.WAGASA_CONTRACT;
+    const contract = new ethers.Contract(WagasaContract, WagasaABI, provider);
     let tokenHash;
     try {
         tokenHash = await contract.getTokenHash(tokenId)
@@ -256,10 +251,6 @@ export async function getServerSideProps(context) {
         };
     }
 
-    // userData'yı JSON formatına çevirin
-    // tokenHash = JSON.parse(JSON.stringify(tokenHash));
-
-    // Eğer veri bulunamazsa 404 sayfası döndürün
     if (!tokenHash) {
         return {
             notFound: true,

@@ -14,7 +14,6 @@ export const captureCanvasImage = async (data) => {
 
         if (canvas) {
             const imageDataUrl = canvas.toDataURL();
-            console.log("Canvas found:", canvas);
             const ipfsUri = await uploadMetaToIPFS(imageDataUrl, data);
             return ipfsUri;
         } else {

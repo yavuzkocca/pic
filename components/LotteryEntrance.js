@@ -1,4 +1,4 @@
-import FishABI from "../constants/FishABI.json";
+import WagasaABI from "../constants/WagasaABI.json";
 import { useNotification } from "web3uikit";
 import { useAccount } from 'wagmi';
 import { ethers } from "ethers";
@@ -12,14 +12,14 @@ dotenv.config();
 
 export default function LotteryEntrance() {
     const provider = new ethers.providers.JsonRpcProvider(`https://base-sepolia.g.alchemy.com/v2/${process.env.BASE_SEPOLIA_PROVIDER}`);
-    const FishContract = process.env.FISH_CONTRACT;
-    console.log("FCT" + FishContract)
+    const WagasaContract = process.env.WAGASA_CONTRACT;
+
 
     const provide = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provide.getSigner();
 
     const dispatch = useNotification();
-    const contract = new ethers.Contract(FishContract, FishABI, signer);
+    const contract = new ethers.Contract(WagasaContract, WagasaABI, signer);
 
     const { address, chainId } = useAccount();
     const unixTimestamp = Math.floor(Date.now() / 1000);
@@ -36,7 +36,7 @@ export default function LotteryEntrance() {
         setId(tid.toNumber());
         setTokenHash(`${address}${tid}${unixTimestamp}`)
         const userData = {
-            contractAddress: process.env.FISH_CONTRACT,
+            contractAddress: process.env.WAGASA_CONTRACT,
             chainId: chainId,
             tokenId: tid.toNumber(),
             walletAddress: address,
@@ -46,17 +46,11 @@ export default function LotteryEntrance() {
         setUserData(userData);
     };
 
-    console.log("dat" + JSON.stringify(data));
-    console.log(JSON.stringify(userData));
-    console.log(id)
-    console.log(tokenHash)
-
-    async function mintFish(tokenId, URI, tokenHash) {
-        const contract = new ethers.Contract(FishContract, FishABI, signer);
-        console.log(URI);
+    async function mintWagasa(tokenId, URI, tokenHash) {
+        const contract = new ethers.Contract(WagasaContract, WagasaABI, signer);
 
         try {
-            const transaction = await contract.mintFish(tokenId, URI, tokenHash, {
+            const transaction = await contract.mintWagasa(tokenId, URI, tokenHash, {
                 value: ethers.utils.parseEther("0.000001"),
             });
             await transaction.wait();
@@ -101,17 +95,13 @@ export default function LotteryEntrance() {
     useEffect(() => {
         if (userData && data && id && tokenHash) {
 
-            const mintFishProcess = async () => {
+            const mintWagasaProcess = async () => {
                 const URL = await captureCanvasImage(data);
-                console.log(URL);
                 const cleanUri = URL.replace('ipfs://', '');
                 const lastUri = `https://ipfs.io/ipfs/${cleanUri}`;
-                console.log("TH" + tokenHash)
-                console.log("TH" + id)
-                console.log("TH" + lastUri)
-                await mintFish(id, lastUri, tokenHash);
+                await mintWagasa(id, lastUri, tokenHash);
             };
-            mintFishProcess();
+            mintWagasaProcess();
         }
     }, [userData, data, id]);
 
@@ -133,7 +123,7 @@ export default function LotteryEntrance() {
                     <div className="p-5 m-10 ">
                         <div>
                             <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-5 tracking-widest">Wagasa</h5>
-                            <p className="leading-6 text-m text-gray-900 dark:text-white mb-4">WAGASA is a limited series collection of 10,000 generative artworks, encapsulating themes of nihilism, inherent cruelty, and greed—echoing our trivial existence in an uncaring universe.
+                            <p className="leading-6 text-m text-gray-900 dark:text-white mb-4">WAGASA is a limited series collection of 39,393 generative artworks, encapsulating themes of nihilism, inherent cruelty, and greed—echoing our trivial existence in an uncaring universe.
                                 <br></br>   <br></br> Each element in these artworks—from colors to strokes—reflects the fleeting nature of life amidst an eternal void, the scars of violence, and the complacency they foster.
                                 <br></br> <br></br> Though seemingly colorful and tranquil, underlying currents challenge the observer to confront deeper truths.
                                 WAGASA, not for the faint of heart, mirrors our darkest despair and spurs introspection, urging us to confront our demons and strive for a better future.

@@ -1,5 +1,5 @@
 
-const FishABI = require("./FishABI.json")
+const WagasaABI = require("./WagasaABI.json")
 module.exports = {
-    FishABI,
+    WagasaABI,
 }

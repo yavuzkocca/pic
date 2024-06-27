@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import NFTBox from "./nftBox"
-import FishABI from "../constants/FishABI.json"
+import WagasaABI from "../constants/WagasaABI.json"
 import { useAccount } from 'wagmi'
 import { ethers } from "ethers";
 import dotenv from 'dotenv';
@@ -10,13 +10,13 @@ export default function NFTBoxContainer() {
     const [balance, setBalance] = useState("")
     const [nftsData, setNftsData] = useState([])
     const provider = new ethers.providers.JsonRpcProvider(`https://base-sepolia.g.alchemy.com/v2/${process.env.BASE_SEPOLIA_PROVIDER}`);
-    const FishContract = process.env.FISH_CONTRACT;
-    const contract = new ethers.Contract(FishContract, FishABI, provider);
+    const WagasaContract = process.env.WAGASA_CONTRACT;
+    const contract = new ethers.Contract(WagasaContract, WagasaABI, provider);
 
     const { address, isConnecting, isConnected, isDisconnected, chainId } = useAccount();
 
-    const listenToFishMintedEvent = async () => {
-        contract.on("FishMinted", (owner, tokenId, tokenURI, event) => {
+    const listenToWagasaMintedEvent = async () => {
+        contract.on("WagasaMinted", (owner, tokenId, tokenURI, event) => {
             updateUI()
         });
     };
@@ -43,10 +43,10 @@ export default function NFTBoxContainer() {
     }
 
     useEffect(() => {
-        listenToFishMintedEvent();
+        listenToWagasaMintedEvent();
         updateUI()
         return () => {
-            contract.removeAllListeners("FishMinted");
+            contract.removeAllListeners("WagasaMinted");
         };
 
     }, [isConnected]);

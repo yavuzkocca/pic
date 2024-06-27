@@ -28,12 +28,10 @@ const hl = (userData) => {
   }
 
   const tokenId = userData.userData.tokenId
-  console.log(tokenId)
   const walletAddress = userData.userData.walletAddress
-  console.log(walletAddress)
   const timestamp = userData.userData.timestamp
   const seed = xmur3(walletAddress + tokenId + timestamp);
-  //const seed = xmur3(0x6C24136a9874A1a8CC4f333a1c4855038F350fD5)
+
 
   const hl = {
     random: (...args) => {

@@ -7,5 +7,4 @@ export const sendData = async (data) => {
         body: JSON.stringify(data),
     });
     const result = await response.json();
-    console.log(result);
 };

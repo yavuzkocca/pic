@@ -5,13 +5,10 @@ import hl from '../constants/hl-gen2';
 
 export function sketch(p5, userData1, setData, cata, setCata) {
 
-
     const high = hl(userData1)
-
 
     let spheres = [];
     let palette;
-
 
     function pickNumber(numbers, weights) {
         let totalWeight = weights.reduce((a, b) => a + b, 0);
@@ -30,7 +27,6 @@ export function sketch(p5, userData1, setData, cata, setCata) {
     let n = Math.floor(high.random(1, 20)) * 10;
     let maxRadius = high.random(1.5, 2.5);
     let off = high.randomInt(0, 1000);
-
     let segments;
     let segmentNumbers = [12, 24, 20, 30, 36];
     let weightss = [3, 5, 4, 2, 1];
@@ -236,9 +232,9 @@ export function sketch(p5, userData1, setData, cata, setCata) {
 
     function Trait0(maxRadius) {
         if (maxRadius < 2) {
-            return "short";
+            return "Short";
         } else {
-            return "long";
+            return "Long";
         }
     }
 
@@ -248,11 +244,11 @@ export function sketch(p5, userData1, setData, cata, setCata) {
 
     function Trait2(off) {
         if (off < 333) {
-            return "onSet";
+            return "OnSet";
         } else if (off < 666 && 334 < off) {
-            return "maybeSet";
+            return "MaybeSet";
         } else {
-            return "offSet";
+            return "OffSet";
         }
     }
 
@@ -276,9 +272,9 @@ export function sketch(p5, userData1, setData, cata, setCata) {
 
     function Trait4(rotationSpeed) {
         if (rotationSpeed < 0.02) {
-            return "forward";
+            return "Forward";
         } else {
-            return "onward";
+            return "Onward";
         }
     }
 
@@ -291,13 +287,12 @@ export function sketch(p5, userData1, setData, cata, setCata) {
         "segment": segmentPickedTrait,
         "speed": speedPickedTrait,
     };
-    console.log(JSON.stringify(traits));
+
     let name = `Wagasa #${userData1.userData?.tokenId}`;
 
     let description =
-        `A limited-edition generative art collection featuring unique tree designs created with p5.js. Each piece blends technology and nature.`
+        `WAGASA is a collection of 39,393 generative NFTs on Taiko Blockchain, echoing our trivial existence in an uncaring universe.`
         ;
-    console.log(description)
 
     otherdata = {
         "name": name,
@@ -306,14 +301,11 @@ export function sketch(p5, userData1, setData, cata, setCata) {
         "tokenHash": `${userData1.userData?.tokenHash}`,
         "attributes": traits
     }
-    console.log("CATA" + cata)
+
     if (cata == false) {
         setData(otherdata);
-        console.log("OTH" + JSON.stringify(otherdata))
         setCata(true);
     }
-    console.log(otherdata)
-
 };
 
 
@@ -322,10 +314,6 @@ export function sketch(p5, userData1, setData, cata, setCata) {
 export default function Wrapper(userData, dataRef) {
     const userData1 = userData
     const { data, setData, cata, setCata } = useContext(DataContext);
-
-
-    console.log(`Wusr ${JSON.stringify(userData1)}`)
-    console.log(`Wusr ${JSON.stringify(data)}`)
 
     if (!userData || !userData.userData) {
 
